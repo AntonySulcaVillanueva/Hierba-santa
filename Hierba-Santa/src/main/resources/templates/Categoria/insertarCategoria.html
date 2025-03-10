@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar Categoria</title>
+</head>
+<body>
+<h1 th:text="${categoria.idcategoria != null ? 'Editar Categoria' : 'Crear Nueva Categoria'}"></h1>
+<form th:object="${categoria}" th:action="@{${accion}}" method="post" onsubmit="return validateForm()">
+    <input type="hidden" th:field="*{idcategoria}">
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" id="nombre" required/><br>
+
+    <label>Descripción:</label>
+    <textarea th:field="*{descripcion}" id="descripcion" required></textarea><br>
+
+    <button type="submit" th:text="${categoria.idcategoria != null ? 'Actualizar' : 'Guardar'}"></button>
+</form>
+
+<p id="error-message" style="color: red; display: none;">Por favor, complete todos los campos.</p>
+
+<a href="/categoria/listarCategoria">Volver al Listado de Categorías</a>
+
+<script>
+    function validateForm() {
+        var nombre = document.getElementById("nombre").value;
+        var descripcion = document.getElementById("descripcion").value;
+        var errorMessage = document.getElementById("error-message");
+
+        if (nombre === "" || descripcion === "") {
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        errorMessage.style.display = "none";
+        return true;
+    }
+</script>
+</body>
+</html>

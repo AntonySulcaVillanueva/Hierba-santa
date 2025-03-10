@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lista de Categorías</title>
 </head>
 <body>
 <h1>LISTADO DE CATEGORIAS</h1>
-<button onclick="window.location.href='/categoria/nuevaCategoria'">Nueva Categoría</button>
+<button onclick="window.location.href='/categoria/insertarCategoria'">Nueva Categoría</button>
 <table>
     <tr>
         <th>Codigo</th>
@@ -19,13 +19,20 @@
         <td th:text="${categoria.nombre}"></td>
         <td th:text="${categoria.descripcion}"></td>
         <td>
-            <button onclick="window.location.href='/categoria/editarCategoria/${categoria.idcategoria}'">Editar</button>
-            <a href="#">Detalles</a>
-            <a href="#">Eliminar</a>
+            <a th:href="@{/categoria/editarCategoria/{idcategoria}(idcategoria=${categoria.idcategoria})}">Editar</a>
+            <a th:href="@{/categoria/detalleCategoria/{idcategoria}(idcategoria=${categoria.idcategoria})}">Detalle</a>
+            <a href="#" th:onclick="'confirmDelete(' + ${categoria.idcategoria} + ')'" style="color: red;">Eliminar</a>
         </td>
-
     </tr>
 </table>
+
+<script>
+    function confirmDelete(id) {
+        if (confirm('¿Está seguro de que desea eliminar esta categoría?')) {
+            window.location.href = '/categoria/eliminar/' + id;
+        }
+    }
+</script>
 
 </body>
 </html>

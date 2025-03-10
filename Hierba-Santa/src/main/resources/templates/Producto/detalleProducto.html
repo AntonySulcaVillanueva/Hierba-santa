@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Producto</title>
+</head>
+<body>
+<h1>Detalle de Producto</h1>
+<table>
+    <tr>
+        <th>Código</th>
+        <td th:text="${producto.idproducto}"></td>
+    </tr>
+    <tr>
+        <th>Nombre</th>
+        <td th:text="${producto.nombre}"></td>
+    </tr>
+    <tr>
+        <th>Descripción</th>
+        <td th:text="${producto.descripcion}"></td>
+    </tr>
+    <tr>
+        <th>Categoria</th>
+        <td th:text="${producto.categoria.nombre}"></td>
+    </tr>
+    <tr>
+        <th>Gramos</th>
+        <td th:text="${producto.gramos}"></td>
+    </tr>
+    <tr>
+        <th>Precio</th>
+        <td th:text="${producto.precio}"></td>
+    </tr>
+    <tr>
+        <th>Descuento</th>
+        <td th:text="${producto.descuento}"></td>
+    </tr>
+    <tr>
+        <th>Cantidad</th>
+        <td th:text="${producto.cantidad}"></td>
+    </tr>
+    <tr>
+        <th>Imagen 1</th>
+        <td><img th:src="${producto.imagen1}" alt="Imagen 1" /></td>
+    </tr>
+    <tr>
+        <th>Imagen 2</th>
+        <td><img th:src="${producto.imagen2}" alt="Imagen 2" /></td>
+    </tr>
+    <tr>
+        <th>Imagen 3</th>
+        <td><img th:src="${producto.imagen3}" alt="Imagen 3" /></td>
+    </tr>
+</table>
+<a href="/producto/listarProductos">Volver al Listado de Productos</a>
+</body>
+</html>

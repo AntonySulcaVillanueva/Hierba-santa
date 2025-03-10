@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insertar Producto</title>
+</head>
+<body>
+<h1 th:text="${producto.idproducto != null ? 'Editar Producto' : 'Crear Nuevo Producto'}"></h1>
+<form th:object="${producto}" th:action="@{${accion}}" method="post" onsubmit="return validateForm()">
+    <input type="hidden" th:field="*{idproducto}">
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" id="nombre" required/><br>
+
+    <label>Descripción:</label>
+    <textarea th:field="*{descripcion}" id="descripcion" required></textarea><br>
+
+    <label>Categoria:</label>
+    <select th:field="*{categoria}" id="categoria" required>
+        <option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria.nombre}"></option>
+    </select><br>
+
+    <label>Gramos:</label>
+    <input type="text" th:field="*{gramos}" id="gramos" required/><br>
+
+    <label>Precio:</label>
+    <input type="number" step="0.01" th:field="*{precio}" id="precio" required/><br>
+
+    <label>Descuento:</label>
+    <input type="number" th:field="*{descuento}" id="descuento" required/><br>
+
+    <label>Cantidad:</label>
+    <input type="number" th:field="*{cantidad}" id="cantidad" required/><br>
+
+    <label>Imagen 1:</label>
+    <input type="text" th:field="*{imagen1}" id="imagen1" required/><br>
+
+    <label>Imagen 2:</label>
+    <input type="text" th:field="*{imagen2}" id="imagen2" required/><br>
+
+    <label>Imagen 3:</label>
+    <input type="text" th:field="*{imagen3}" id="imagen3" required/><br>
+
+    <button type="submit" th:text="${producto.idproducto != null ? 'Actualizar' : 'Guardar'}"></button>
+</form>
+
+<p id="error-message" style="color: red; display: none;">Por favor, complete todos los campos.</p>
+
+<a href="/producto/listarProductos">Volver al Listado de Productos</a>
+
+<script>
+    function validateForm() {
+        var nombre = document.getElementById("nombre").value;
+        var descripcion = document.getElementById("descripcion").value;
+        var categoria = document.getElementById("categoria").value;
+        var gramos = document.getElementById("gramos").value;
+        var precio = document.getElementById("precio").value;
+        var descuento = document.getElementById("descuento").value;
+        var cantidad = document.getElementById("cantidad").value;
+        var imagen1 = document.getElementById("imagen1").value;
+        var imagen2 = document.getElementById("imagen2").value;
+        var imagen3 = document.getElementById("imagen3").value;
+        var errorMessage = document.getElementById("error-message");
+
+        if (nombre === "" || descripcion === "" || categoria === "" || gramos === "" || precio === "" || descuento === "" || cantidad === "" || imagen1 === "" || imagen2 === "" || imagen3 === "") {
+            errorMessage.style.display = "block";
+            return false;
+        }
+
+        errorMessage.style.display = "none";
+        return true;
+    }
+</script>
+</body>
+</html>

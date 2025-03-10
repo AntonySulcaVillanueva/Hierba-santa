@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Categoria</title>
+</head>
+<body>
+<h1 th:text="${categoria.idcategoria != null ? 'Editar Categoria' : 'Crear Nueva Categoria'}"></h1>
+<form th:object="${categoria}" th:action="@{${accion}}" method="post">
+    <input type="hidden" th:field="*{idcategoria}">
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}"/><br>
+
+    <label>Descripción:</label>
+    <textarea th:field="*{descripcion}"></textarea><br>
+
+    <button type="submit" th:text="${categoria.idcategoria != null ? 'Actualizar' : 'Guardar'}"></button>
+</form>
+
+<a href="/categoria/listarCategoria">Volver al Listado de Categorías</a>
+</body>
+</html>

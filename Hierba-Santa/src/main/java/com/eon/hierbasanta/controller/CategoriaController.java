@@ -14,53 +14,61 @@ import java.util.Optional;
 @RequestMapping("/categoria")
 public class CategoriaController {
 
-
-
     @Autowired
     private CategoriaService categoriaService;
 
     @GetMapping("/listarCategoria")
     public String listarCategoria(Model model) {
-        List<Categorias> categorias=categoriaService.mostrarTodas();
+        List<Categorias> categorias = categoriaService.mostrarTodas();
         model.addAttribute("listaCategoria", categorias);
-        return "categoria/listarCategoria";
-    }
-    @GetMapping("/nuevaCategoria")
-    public String MostrarformularioNuevaCategoria(Model model) {
-        model.addAttribute("categoria", new Categorias());
-        model.addAttribute("accion", "");
-        return "Categoria/formularioCategoria";
+        return "Categoria/listarCategoria";
     }
 
-    @PostMapping("/nuevaCategoria")
-    public String GuardarCategoria(@ModelAttribute Categorias categoria) {
+    @GetMapping("/insertarCategoria")
+    public String mostrarFormularioNuevaCategoria(Model model) {
+        model.addAttribute("categoria", new Categorias());
+        model.addAttribute("accion", "/categoria/insertarCategoria");
+        return "Categoria/insertarCategoria";
+    }
+
+    @PostMapping("/insertarCategoria")
+    public String guardarCategoria(@ModelAttribute Categorias categoria) {
         categoriaService.crearCategoria(categoria);
         return "redirect:/categoria/listarCategoria";
     }
 
     @GetMapping("/editarCategoria/{idcategoria}")
-    public String MostrarformularioEditarCategoria(@PathVariable Long idcategoria, @ModelAttribute Categorias categoria,Model model) {
-        Optional<Categorias> categoriasOptional=Optional.ofNullable(categoriaService.optenerPorId(idcategoria));
-        if(categoriasOptional.isPresent()) {
+    public String mostrarFormularioEditarCategoria(@PathVariable Long idcategoria, Model model) {
+        Optional<Categorias> categoriasOptional = Optional.ofNullable(categoriaService.optenerPorId(idcategoria));
+        if (categoriasOptional.isPresent()) {
             model.addAttribute("categoria", categoriasOptional.get());
-            model.addAttribute("accion", ""+idcategoria);
-        }else{
+            model.addAttribute("accion", "/categoria/editarCategoria/" + idcategoria);
+        } else {
             return "redirect:/categoria/listarCategoria";
         }
-        return "Categoria/formularioCategoria";
+        return "Categoria/editarCategoria";
     }
 
-    @PostMapping("/editarCategoria/{idCategoria}")
-    public String ActualizarCategoria(@PathVariable Long idCategoria,@ModelAttribute Categorias categoria) {
-        categoriaService.actualizarCategoria(idCategoria, categoria);
+    @PostMapping("/editarCategoria/{idcategoria}")
+    public String actualizarCategoria(@PathVariable Long idcategoria, @ModelAttribute Categorias categoria) {
+        categoriaService.actualizarCategoria(idcategoria, categoria);
         return "redirect:/categoria/listarCategoria";
     }
 
-
     @GetMapping("/eliminar/{idcategoria}")
-    public String EliminarCategoria(@PathVariable Long idcategoria) {
+    public String eliminarCategoria(@PathVariable Long idcategoria) {
         categoriaService.eliminarCategoria(idcategoria);
         return "redirect:/categoria/listarCategoria";
     }
 
+    @GetMapping("/detalleCategoria/{idcategoria}")
+    public String mostrarDetalleCategoria(@PathVariable Long idcategoria, Model model) {
+        Optional<Categorias> categoriasOptional = Optional.ofNullable(categoriaService.optenerPorId(idcategoria));
+        if (categoriasOptional.isPresent()) {
+            model.addAttribute("categoria", categoriasOptional.get());
+        } else {
+            return "redirect:/categoria/listarCategoria";
+        }
+        return "Categoria/detalleCategoria";
+    }
 }
