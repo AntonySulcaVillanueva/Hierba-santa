@@ -6,8 +6,8 @@
 <body>
 <h1>Editar Tipo Cliente</h1>
 <form th:action="@{/tipoCliente/editarTipoCliente/{id}(id=${tipoCliente.idTipoCliente})}" th:object="${tipoCliente}" method="post">
-    <label for="tipoCliente">Tipo Cliente:</label>
-    <input type="text" id="tipoCliente" th:field="*{tipoCliente}" required>
+    <label for="tipo">Tipo Cliente:</label>
+    <input type="text" id="tipo" th:field="*{tipo}" required>
     <br>
     <label for="descripcion">Descripción:</label>
     <input type="text" id="descripcion" th:field="*{descripcion}">

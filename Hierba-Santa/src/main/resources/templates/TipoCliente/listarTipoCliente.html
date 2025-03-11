@@ -18,7 +18,7 @@
     <tbody>
     <tr th:each="tipoCliente : ${listaTipoCliente}">
         <td th:text="${tipoCliente.idTipoCliente}">1</td>
-        <td th:text="${tipoCliente.tipoCliente}">Cliente Regular</td>
+        <td th:text="${tipoCliente.tipo}">Cliente Regular</td>
         <td th:text="${tipoCliente.descripcion}">Descripción</td>
         <td th:text="${tipoCliente.beneficios}">Beneficios</td>
         <td>

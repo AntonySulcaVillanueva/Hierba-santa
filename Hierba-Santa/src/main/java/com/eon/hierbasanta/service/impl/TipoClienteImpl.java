@@ -34,8 +34,8 @@ public class TipoClienteImpl implements TipoClienteService {
     public TipoCliente actualizarTipoCliente(Long idTipoCliente, TipoCliente tipoCliente) {
         TipoCliente tipoClienteActual = tipoClienteRepository.findById(idTipoCliente).orElse(null);
         if (tipoClienteActual!=null) {
-            tipoClienteActual.setTipoCliente(tipoCliente.getTipoCliente());
-            tipoClienteActual.setTipoCliente(tipoCliente.getTipoCliente());
+            tipoClienteActual.setBeneficios(tipoCliente.getBeneficios());
+            tipoClienteActual.setTipo(tipoCliente.getTipo());
             tipoClienteActual.setDescripcion(tipoCliente.getDescripcion());
             return tipoClienteRepository.save(tipoClienteActual);
         }

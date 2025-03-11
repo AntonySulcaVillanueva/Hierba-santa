@@ -25,7 +25,7 @@ public class TipoClienteController {
 
     @GetMapping("/insertarTipoCliente")
     public String insertarTipoClienteForm(Model model) {
-        model.addAttribute("tipoCliente", new TipoCliente());
+        model.addAttribute("tcliente", new TipoCliente());
         return "TipoCliente/insertarTipoCliente";
     }
 

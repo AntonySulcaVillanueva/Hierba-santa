@@ -113,9 +113,9 @@
   <h1 th:text="'Insertar Tipo Cliente'"></h1>
 
   <!-- Formulario de inserción de tipo de cliente -->
-  <form th:object="${tipoCliente}" th:action="@{/tipoCliente/insertarTipoCliente}" method="post" onsubmit="return validateForm()">
-    <label for="tipoCliente">Tipo Cliente:</label>
-    <input type="text" id="tipoCliente" th:field="*{tipoCliente}" required placeholder="Ingrese el tipo de cliente"/>
+  <form th:object="${tcliente}" th:action="@{/tipoCliente/insertarTipoCliente}" method="post" onsubmit="return validateForm()">
+    <label for="tipo">Tipo Cliente:</label>
+    <input type="text" id="tipo" th:field="*{tipo}" required placeholder="Ingrese el tipo de cliente"/>
 
     <label for="descripcion">Descripción:</label>
     <input type="text" id="descripcion" th:field="*{descripcion}" placeholder="Ingrese una descripción"/>
@@ -135,7 +135,7 @@
 <script>
   // Función de validación del formulario
   function validateForm() {
-    var tipoCliente = document.getElementById("tipoCliente").value;
+    var tipoCliente = document.getElementById("tipo").value;
     var errorMessage = document.getElementById("error-message");
 
     // Verificar si el campo tipoCliente está vacío

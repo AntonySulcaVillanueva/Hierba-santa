@@ -17,8 +17,8 @@ public class TipoCliente {
     @Column(name = "id_tipo_cliente")
     private Long idTipoCliente;
 
-    @Column(name = "tipo_cliente", nullable = false)
-    private String tipoCliente;
+    @Column(name = "tipo", nullable = false)
+    private String tipo;
 
     @Column(name = "descripcion")
     private String descripcion;
