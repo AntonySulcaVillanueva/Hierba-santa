@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Listar Clientes</title>
+</head>
+<body>
+<h1>Lista de Clientes</h1>
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nombre Completo</th>
+    <th>DNI</th>
+    <th>Correo</th>
+    <th>Teléfono</th>
+    <th>Dirección</th>
+    <th>Fecha de Nacimiento</th>
+    <th>Tipo Cliente</th>
+    <th>Total Pedidos Sin Cancelar</th>
+    <th>Fecha de Registro</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="cliente : ${listaClientes}">
+    <td th:text="${cliente.idCliente}">1</td>
+    <td th:text="${cliente.nombreCompleto}">Nombre Completo</td>
+    <td th:text="${cliente.dni}">DNI</td>
+    <td th:text="${cliente.correo}">Correo</td>
+    <td th:text="${cliente.telefono}">Teléfono</td>
+    <td th:text="${cliente.direccion}">Dirección</td>
+    <td th:text="${cliente.fechaNacimiento}">Fecha de Nacimiento</td>
+    <td th:text="${cliente.tipoCliente.tipoCliente}">Tipo Cliente</td>
+    <td th:text="${cliente.totalPedidosSinCancelar}">Total Pedidos Sin Cancelar</td>
+    <td th:text="${cliente.fechaRegistro}">Fecha de Registro</td>
+    <td>
+      <a th:href="@{/cliente/detalleCliente/{id}(id=${cliente.idCliente})}">Detalle</a>
+      <a th:href="@{/cliente/editarCliente/{id}(id=${cliente.idCliente})}">Editar</a>
+      <a th:href="@{/cliente/eliminarCliente/{id}(id=${cliente.idCliente})}">Eliminar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a th:href="@{/cliente/insertarCliente}">Insertar Nuevo Cliente</a>
+</body>
+</html>

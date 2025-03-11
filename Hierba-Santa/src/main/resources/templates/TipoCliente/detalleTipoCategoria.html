@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalle Tipo Cliente</title>
+</head>
+<body>
+<h1>Detalle del Tipo Cliente</h1>
+<div>
+    <p><strong>ID:</strong> <span th:text="${tipoCliente.idTipoCliente}">1</span></p>
+    <p><strong>Tipo Cliente:</strong> <span th:text="${tipoCliente.tipoCliente}">Cliente Regular</span></p>
+    <p><strong>Descripción:</strong> <span th:text="${tipoCliente.descripcion}">Descripción</span></p>
+    <p><strong>Beneficios:</strong> <span th:text="${tipoCliente.beneficios}">Beneficios</span></p>
+</div>
+<a th:href="@{/tipoCliente/listarTipoCliente}">Volver a la Lista</a>
+</body>
+</html>

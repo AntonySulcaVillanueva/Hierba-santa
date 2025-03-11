@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listar Tipo Cliente</title>
+</head>
+<body>
+<h1>Lista de Tipos de Cliente</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tipo Cliente</th>
+        <th>Descripción</th>
+        <th>Beneficios</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tipoCliente : ${listaTipoCliente}">
+        <td th:text="${tipoCliente.idTipoCliente}">1</td>
+        <td th:text="${tipoCliente.tipoCliente}">Cliente Regular</td>
+        <td th:text="${tipoCliente.descripcion}">Descripción</td>
+        <td th:text="${tipoCliente.beneficios}">Beneficios</td>
+        <td>
+            <a th:href="@{/tipoCliente/detalleTipoCategoria/{id}(id=${tipoCliente.idTipoCliente})}">Detalle</a>
+            <a th:href="@{/tipoCliente/editarTipoCliente/{id}(id=${tipoCliente.idTipoCliente})}">Editar</a>
+            <a th:href="@{/tipoCliente/eliminarTipoCliente/{id}(id=${tipoCliente.idTipoCliente})}">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/tipoCliente/insertarTipoCliente}">Insertar Nuevo Tipo Cliente</a>
+</body>
+</html>

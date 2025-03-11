@@ -2,25 +2,122 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Insertar Categoria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Crear Nueva Categoria'"></title>
+    <style>
+        body, html {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            overflow: hidden;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #333;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            color: #2196F3;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        #error-message {
+            color: red;
+            display: none;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h1 th:text="${categoria.idcategoria != null ? 'Editar Categoria' : 'Crear Nueva Categoria'}"></h1>
-<form th:object="${categoria}" th:action="@{${accion}}" method="post" onsubmit="return validateForm()">
-    <input type="hidden" th:field="*{idcategoria}">
+<div class="navbar">
+    <a href="/menu">Menú</a>
+    <a href="/producto/listarProductos">Productos</a>
+</div>
+<div class="container">
+    <h1 th:text="'Crear Nueva Categoria'"></h1>
+    <form th:object="${categoria}" th:action="@{/categoria/insertarCategoria}" method="post" onsubmit="return validateForm()">
+        <input type="hidden" th:field="*{idcategoria}">
 
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" id="nombre" required/><br>
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombre}" id="nombre" required/>
 
-    <label>Descripción:</label>
-    <textarea th:field="*{descripcion}" id="descripcion" required></textarea><br>
+        <label>Descripción:</label>
+        <textarea th:field="*{descripcion}" id="descripcion" required></textarea>
 
-    <button type="submit" th:text="${categoria.idcategoria != null ? 'Actualizar' : 'Guardar'}"></button>
-</form>
+        <button type="submit" th:text="'Guardar'"></button>
+    </form>
 
-<p id="error-message" style="color: red; display: none;">Por favor, complete todos los campos.</p>
+    <p id="error-message">Por favor, complete todos los campos.</p>
 
-<a href="/categoria/listarCategoria">Volver al Listado de Categorías</a>
+    <a href="/categoria/listarCategoria" class="back-link">Volver al Listado de Categorías</a>
+</div>
 
 <script>
     function validateForm() {

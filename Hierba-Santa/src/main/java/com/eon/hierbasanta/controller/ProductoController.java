@@ -32,8 +32,8 @@ public class ProductoController {
     @GetMapping("/insertarProducto")
     public String mostrarFormularioNuevoProducto(Model model) {
         List<Categorias> categorias = categoriaService.mostrarTodas();
-        model.addAttribute("producto", new Productos());
         model.addAttribute("categorias", categorias);
+        model.addAttribute("producto", new Productos());
         model.addAttribute("accion", "/producto/insertarProducto");
         return "Producto/insertarProducto";
     }
