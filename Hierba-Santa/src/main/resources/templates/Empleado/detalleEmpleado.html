@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalle Empleado</title>
+</head>
+<body>
+<h1>Detalle del Empleado</h1>
+<div>
+    <p><strong>ID Empleado:</strong> <span th:text="${llaveEmpleados.idEmpleado}"></span></p>
+    <p><strong>Nombre Completo:</strong> <span th:text="${llaveEmpleados.nombreCompleto}"></span></p>
+    <p><strong>DNI:</strong> <span th:text="${llaveEmpleados.dni}"></span></p>
+    <p><strong>Cargo:</strong> <span th:text="${llaveEmpleados.cargo}"></span></p>
+    <p><strong>Teléfono:</strong> <span th:text="${llaveEmpleados.telefono}"></span></p>
+    <p><strong>Dirección:</strong> <span th:text="${llaveEmpleados.direccion}"></span></p>
+    <p><strong>Fecha de Contrato:</strong> <span th:text="${#temporals.format(llaveEmpleados.fechaDeContrato, 'yyyy-MM-dd')}"></span></p>
+    <p><strong>Salario:</strong> <span th:text="${llaveEmpleados.salario}"></span></p>
+</div>
+<a th:href="@{/empleado/listarEmpleados}">Volver a lista</a>
+<a th:href="@{/empleado/editarEmpleado/{id}(id=${llaveEmpleados.idEmpleado})}">Editar</a>
+<a th:href="@{/empleado/eliminarEmpleado/{id}(id=${llaveEmpleados.idEmpleado})}">Eliminar</a>
+</body>
+</html>

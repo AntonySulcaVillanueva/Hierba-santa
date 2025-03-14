@@ -17,10 +17,10 @@
     </thead>
     <tbody>
     <tr th:each="tipoCliente : ${listaTipoCliente}">
-        <td th:text="${tipoCliente.idTipoCliente}">1</td>
-        <td th:text="${tipoCliente.tipo}">Cliente Regular</td>
-        <td th:text="${tipoCliente.descripcion}">Descripción</td>
-        <td th:text="${tipoCliente.beneficios}">Beneficios</td>
+        <td th:text="${tipoCliente.idTipoCliente}"></td>
+        <td th:text="${tipoCliente.tipo}"></td>
+        <td th:text="${tipoCliente.descripcion}"></td>
+        <td th:text="${tipoCliente.beneficios}"></td>
         <td>
             <a th:href="@{/tipoCliente/detalleTipoCategoria/{id}(id=${tipoCliente.idTipoCliente})}">Detalle</a>
             <a th:href="@{/tipoCliente/editarTipoCliente/{id}(id=${tipoCliente.idTipoCliente})}">Editar</a>

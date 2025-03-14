@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -35,8 +37,7 @@ public class Cliente {
     private String direccion;
 
     @Column(name = "fecha_nacimiento")
-    @Temporal(TemporalType.DATE)
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_cliente", referencedColumnName = "id_tipo_cliente")
@@ -46,6 +47,5 @@ public class Cliente {
     private Integer totalPedidosSinCancelar;
 
     @Column(name = "fecha_registro")
-    @Temporal(TemporalType.DATE)
-    private Date fechaRegistro;
+    private LocalDateTime fechaRegistro;
 }

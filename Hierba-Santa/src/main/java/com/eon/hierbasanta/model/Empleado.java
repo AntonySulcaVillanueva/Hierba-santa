@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -35,8 +36,8 @@ public class Empleado {
     private String direccion;
 
     @Column(name = "fecha_de_contrato")
-    @Temporal(TemporalType.DATE)
-    private Date fechaDeContrato;
+    private LocalDate fechaDeContrato;
+
 
     @Column(name = "salario")
     private Double salario;

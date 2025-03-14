@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -32,41 +33,42 @@ public class ClienteController {
     public String insertarClienteForm(Model model) {
         List<TipoCliente> tipoClientes = tipoClienteService.mostrarTodos();
         model.addAttribute("cliente", new Cliente());
-        model.addAttribute("tipoClientes", tipoClientes);
+        model.addAttribute("tcliente", tipoClientes);
         return "Cliente/insertarCliente";
     }
 
     @PostMapping("/insertarCliente")
     public String insertarCliente(@ModelAttribute Cliente cliente) {
+        cliente.setFechaRegistro(LocalDateTime.now());
         clienteService.crearCliente(cliente);
         return "redirect:/cliente/listarCliente";
     }
 
-    @GetMapping("/editarCliente/{id}")
-    public String editarClienteForm(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteService.obtenerPorId(id);
+    @GetMapping("/editarCliente/{idCliente}")
+    public String editarClienteForm(@PathVariable Long idCliente, Model model) {
+        Cliente cliente = clienteService.obtenerPorId(idCliente);
         List<TipoCliente> tipoClientes = tipoClienteService.mostrarTodos();
-        model.addAttribute("cliente", cliente);
-        model.addAttribute("tipoClientes", tipoClientes);
+        model.addAttribute("llaveCliente", cliente);
+        model.addAttribute("llavetipoClientes", tipoClientes);
         return "Cliente/editarCliente";
     }
 
-    @PostMapping("/editarCliente/{id}")
-    public String editarCliente(@PathVariable Long id, @ModelAttribute Cliente cliente) {
-        clienteService.actualizarCliente(id, cliente);
+    @PostMapping("/editarCliente/{idCliente}")
+    public String editarCliente(@PathVariable Long idCliente, @ModelAttribute Cliente cliente) {
+        clienteService.actualizarCliente(idCliente, cliente);
         return "redirect:/cliente/listarCliente";
     }
 
-    @GetMapping("/detalleCliente/{id}")
-    public String detalleCliente(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteService.obtenerPorId(id);
-        model.addAttribute("cliente", cliente);
+    @GetMapping("/detalleCliente/{idCliente}")
+    public String detalleCliente(@PathVariable Long idCliente, Model model) {
+        Cliente cliente = clienteService.obtenerPorId(idCliente);
+        model.addAttribute("llaveCliente", cliente);
         return "Cliente/detalleCliente";
     }
 
-    @GetMapping("/eliminarCliente/{id}")
-    public String eliminarCliente(@PathVariable Long id) {
-        clienteService.eliminarCliente(id);
+    @GetMapping("/eliminarCliente/{idCliente}")
+    public String eliminarCliente(@PathVariable Long idCliente) {
+        clienteService.eliminarCliente(idCliente);
         return "redirect:/cliente/listarCliente";
     }
 }

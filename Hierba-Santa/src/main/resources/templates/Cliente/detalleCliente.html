@@ -6,16 +6,16 @@
 <body>
 <h1>Detalle del Cliente</h1>
 <div>
-  <p><strong>ID:</strong> <span th:text="${cliente.idCliente}">1</span></p>
-  <p><strong>Nombre Completo:</strong> <span th:text="${cliente.nombreCompleto}">Nombre Completo</span></p>
-  <p><strong>DNI:</strong> <span th:text="${cliente.dni}">DNI</span></p>
-  <p><strong>Correo:</strong> <span th:text="${cliente.correo}">Correo</span></p>
-  <p><strong>Teléfono:</strong> <span th:text="${cliente.telefono}">Teléfono</span></p>
-  <p><strong>Dirección:</strong> <span th:text="${cliente.direccion}">Dirección</span></p>
-  <p><strong>Fecha de Nacimiento:</strong> <span th:text="${cliente.fechaNacimiento}">Fecha de Nacimiento</span></p>
-  <p><strong>Tipo Cliente:</strong> <span th:text="${cliente.tipoCliente.tipoCliente}">Tipo Cliente</span></p>
-  <p><strong>Total Pedidos Sin Cancelar:</strong> <span th:text="${cliente.totalPedidosSinCancelar}">Total Pedidos Sin Cancelar</span></p>
-  <p><strong>Fecha de Registro:</strong> <span th:text="${cliente.fechaRegistro}">Fecha de Registro</span></p>
+  <p><strong>ID:</strong> <span th:text="${llaveCliente.idCliente}">1</span></p>
+  <p><strong>Nombre Completo:</strong> <span th:text="${llaveCliente.nombreCompleto}">Nombre Completo</span></p>
+  <p><strong>DNI:</strong> <span th:text="${llaveCliente.dni}">DNI</span></p>
+  <p><strong>Correo:</strong> <span th:text="${llaveCliente.correo}">Correo</span></p>
+  <p><strong>Teléfono:</strong> <span th:text="${llaveCliente.telefono}">Teléfono</span></p>
+  <p><strong>Dirección:</strong> <span th:text="${llaveCliente.direccion}">Dirección</span></p>
+  <p><strong>Fecha de Nacimiento:</strong> <span th:text="${llaveCliente.fechaNacimiento}">Fecha de Nacimiento</span></p>
+  <p><strong>Tipo Cliente:</strong> <span th:text="${llaveCliente.tipoCliente.tipo}">Tipo Cliente</span></p>
+  <p><strong>Total Pedidos Sin Cancelar:</strong> <span th:text="${llaveCliente.totalPedidosSinCancelar}">Total Pedidos Sin Cancelar</span></p>
+  <p><strong>Fecha de Registro:</strong> <span th:text="${llaveCliente.fechaRegistro}">Fecha de Registro</span></p>
 </div>
 <a th:href="@{/cliente/listarCliente}">Volver a la Lista</a>
 </body>

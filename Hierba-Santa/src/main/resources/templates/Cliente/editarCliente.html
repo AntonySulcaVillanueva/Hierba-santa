@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title><!DOCTYPE html>
-      <html xmlns:th="http://www.thymeleaf.org">
-      <head>
-      <title>Editar Cliente</title>
+  <title>Editar Cliente</title>
 </head>
 <body>
 <h1>Editar Cliente</h1>
-<form th:action="@{/cliente/editarCliente/{id}(id=${cliente.idCliente})}" th:object="${cliente}" method="post">
+<form th:action="@{/cliente/editarCliente/{idCliente}(idCliente=${llaveCliente.idCliente})}" th:object="${llaveCliente}" method="post">
   <label for="nombreCompleto">Nombre Completo:</label>
   <input type="text" id="nombreCompleto" th:field="*{nombreCompleto}" required>
   <br>
@@ -30,22 +26,14 @@
   <br>
   <label for="tipoCliente">Tipo Cliente:</label>
   <select id="tipoCliente" th:field="*{tipoCliente}" required>
-    <option th:each="tipoCliente : ${tipoClientes}" th:value="${tipoCliente}" th:text="${tipoCliente.tipoCliente}"></option>
+    <option th:each="tipoCliente : ${llavetipoClientes}" th:value="${tipoCliente.idTipoCliente}" th:text="${tipoCliente.tipo}"></option>
   </select>
   <br>
   <label for="totalPedidosSinCancelar">Total Pedidos Sin Cancelar:</label>
   <input type="number" id="totalPedidosSinCancelar" th:field="*{totalPedidosSinCancelar}">
   <br>
-  <label for="fechaRegistro">Fecha de Registro:</label>
-  <input type="date" id="fechaRegistro" th:field="*{fechaRegistro}">
-  <br>
   <button type="submit">Actualizar</button>
 </form>
 <a th:href="@{/cliente/listarCliente}">Volver a la Lista</a>
-</body>
-</html></title>
-</head>
-<body>
-
 </body>
 </html>

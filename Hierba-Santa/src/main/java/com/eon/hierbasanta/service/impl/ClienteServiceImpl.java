@@ -1,13 +1,12 @@
 package com.eon.hierbasanta.service.impl;
 
 import com.eon.hierbasanta.model.Cliente;
-import com.eon.hierbasanta.model.TipoCliente;
 import com.eon.hierbasanta.repository.ClienteRepository;
-import com.eon.hierbasanta.repository.TipoClienteRepository;
 import com.eon.hierbasanta.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,8 +15,6 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Autowired
-    private TipoClienteRepository tipoClienteRepository;
 
     @Override
     public List<Cliente> mostrarTodos() {
@@ -46,7 +43,6 @@ public class ClienteServiceImpl implements ClienteService {
             clienteActual.setFechaNacimiento(cliente.getFechaNacimiento());
             clienteActual.setTipoCliente(cliente.getTipoCliente());
             clienteActual.setTotalPedidosSinCancelar(cliente.getTotalPedidosSinCancelar());
-            clienteActual.setFechaRegistro(cliente.getFechaRegistro());
             return clienteRepository.save(clienteActual);
         }
         return null;
