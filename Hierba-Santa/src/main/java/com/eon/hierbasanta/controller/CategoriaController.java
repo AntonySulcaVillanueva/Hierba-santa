@@ -21,32 +21,14 @@ public class CategoriaController {
     public String listarCategoria(Model model) {
         List<Categorias> categorias = categoriaService.mostrarTodas();
         model.addAttribute("listaCategoria", categorias);
-        return "Categoria/listarCategoria";
-    }
-
-    @GetMapping("/insertarCategoria")
-    public String mostrarFormularioNuevaCategoria(Model model) {
         model.addAttribute("categoria", new Categorias());
-        model.addAttribute("accion", "/categoria/insertarCategoria");
-        return "Categoria/insertarCategoria";
+        return "Categoria/listarCategoria";
     }
 
     @PostMapping("/insertarCategoria")
     public String guardarCategoria(@ModelAttribute Categorias categoria) {
         categoriaService.crearCategoria(categoria);
         return "redirect:/categoria/listarCategoria";
-    }
-
-    @GetMapping("/editarCategoria/{idcategoria}")
-    public String mostrarFormularioEditarCategoria(@PathVariable Long idcategoria, Model model) {
-        Optional<Categorias> categoriasOptional = Optional.ofNullable(categoriaService.optenerPorId(idcategoria));
-        if (categoriasOptional.isPresent()) {
-            model.addAttribute("categoria", categoriasOptional.get());
-            model.addAttribute("accion", "/categoria/editarCategoria/" + idcategoria);
-        } else {
-            return "redirect:/categoria/listarCategoria";
-        }
-        return "Categoria/editarCategoria";
     }
 
     @PostMapping("/editarCategoria/{idcategoria}")
@@ -61,14 +43,9 @@ public class CategoriaController {
         return "redirect:/categoria/listarCategoria";
     }
 
-    @GetMapping("/detalleCategoria/{idcategoria}")
-    public String mostrarDetalleCategoria(@PathVariable Long idcategoria, Model model) {
-        Optional<Categorias> categoriasOptional = Optional.ofNullable(categoriaService.optenerPorId(idcategoria));
-        if (categoriasOptional.isPresent()) {
-            model.addAttribute("categoria", categoriasOptional.get());
-        } else {
-            return "redirect:/categoria/listarCategoria";
-        }
-        return "Categoria/detalleCategoria";
+    @GetMapping("/obtenerCategoria/{idcategoria}")
+    @ResponseBody
+    public Categorias obtenerCategoria(@PathVariable Long idcategoria) {
+        return categoriaService.optenerPorId(idcategoria);
     }
 }

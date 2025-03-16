@@ -4,131 +4,335 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Categorías</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body, html {
+        body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
             background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
         }
 
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-        }
-
-        .navbar a {
-            float: left;
-            display: block;
-            color: #f2f2f2;
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
             text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
-        }
-
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
+            width: 100%;
         }
 
         .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
+            display: flex;
+            flex-grow: 1;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            background-color: #34495e;
+            padding: 1rem;
+            width: 200px;
+            height: 800px;
+            position: fixed;
+            top: 130px;
+            left: 10px;
+            overflow-y: auto;
+            border-radius: 5px;
+        }
+
+        nav a {
+            margin: 1rem 0;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            background-color: #2c3e50;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #2980b9;
+        }
+
+        main {
+            margin-left: calc(200px + 50px);
+            padding: 2rem;
+            flex-grow: 1;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: calc(100% - 240px);
         }
 
         h1 {
             text-align: center;
-            margin: 20px 0;
-            color: #333;
+            color: #246007;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button i {
+            margin-right: 0.5rem;
+        }
+
+        .nueva_categoria {
+            background-color: #f1c40f;
+        }
+
+        .nueva_categoria:hover {
+            background-color: #f39c12;
+        }
+
+        .insert_guardar {
+            background-color: #3498db;
+        }
+
+        .insert_guardar:hover {
+            background-color: #2980b9;
+        }
+
+        .insert_cancelar {
+            background-color: #c0392b;
+        }
+
+        .insert_cancelar:hover {
+            background-color: #e74c3c;
+        }
+
+        .edit_guardar {
+            background-color: #f39c12;
+        }
+
+        .edit_guardar:hover {
+            background-color: #e67e22;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 18px;
-            text-align: left;
+            margin-top: 1.5rem;
         }
 
         table th, table td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 1rem;
         }
 
         table th {
-            background-color: #4CAF50;
+            background-color: #34495e;
             color: white;
         }
 
-        table tr:hover {
-            background-color: #f5f5f5;
+        table td {
+            background-color: #f9f9f9;
         }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .actions a {
-            margin-right: 10px;
-            color: #2196F3;
+        table a {
+            margin: 0 0.5rem;
             text-decoration: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
         }
 
-        .actions a:hover {
-            text-decoration: underline;
+        .edit {
+            background-color: #3498db;
         }
 
-        .actions a.delete {
-            color: red;
+        .edit:hover {
+            background-color: #2980b9;
+        }
+
+        .delete {
+            background-color: #e74c3c;
+        }
+
+        .delete:hover {
+            background-color: #c0392b;
+        }
+
+        #insertarForm, #editarForm {
+            display: none;
+            margin-top: 2rem;
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .btn_insertar, .btn_editar {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #deleteConfirmation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        #deleteConfirmation h2 {
+            margin: 0 0 1rem 0;
+        }
+
+        #deleteConfirmation .btn_confirm {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        label {
+            display: block;
+            margin: 1rem 0 0.5rem 0;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-<div class="navbar">
-    <a href="/menu">Menú</a>
-    <a href="/producto/listarProductos">Productos</a>
-</div>
+<header>
+    <h1>Sistema Empresarial</h1>
+</header>
 <div class="container">
-    <h1>Listado de Categorías</h1>
-    <button onclick="window.location.href='/categoria/insertarCategoria'">Nueva Categoría</button>
-    <table>
-        <thead>
-        <tr>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="categoria : ${listaCategoria}">
-            <td th:text="${categoria.idcategoria}"></td>
-            <td th:text="${categoria.nombre}"></td>
-            <td th:text="${categoria.descripcion}"></td>
-            <td class="actions">
-                <a th:href="@{/categoria/editarCategoria/{idcategoria}(idcategoria=${categoria.idcategoria})}">Editar</a>
-                <a th:href="@{/categoria/detalleCategoria/{idcategoria}(idcategoria=${categoria.idcategoria})}">Detalle</a>
-                <a href="#" th:onclick="'confirmDelete(' + ${categoria.idcategoria} + ')'" class="delete">Eliminar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <nav>
+        <a href="/pedido/listarPedidos" class="button1">Ver Pedidos</a>
+        <a href="/producto/listarProductos" class="button2">Ver Productos</a>
+        <a href="/categoria/listarCategoria" class="button3">Ver Categoría</a>
+        <a href="/tipoCliente/listarTipoCliente" class="button4">Ver Tipo Cliente</a>
+        <a href="/cliente/listarCliente" class="button5">Ver Clientes</a>
+        <a href="/inventarioProducto/listarInvProductos" class="button6">Inventario Productos</a>
+        <a href="/inventarioInsumo/listarInvInsumos" class="button7">Inventario Insumos</a>
+        <a href="/empleado/listarEmpleados" class="button8">Empleados</a>
+        <a href="/proveedores/listarProveedores" class="button9">Proveedores</a>
+    </nav>
+
+    <main>
+        <h1>Listado de Categorías</h1>
+        <button class="nueva_categoria" onclick="showForm('insertar')"><i class="fas fa-plus"></i>Nueva Categoría</button>
+        <div id="insertarForm">
+            <h2>Insertar Categoría</h2>
+            <form th:action="@{/categoria/insertarCategoria}" th:object="${categoria}" method="post">
+                <label for="nombreInsertar">Nombre</label>
+                <input type="text" id="nombreInsertar" th:field="*{nombre}" required>
+                <label for="descripcionInsertar">Descripción</label>
+                <textarea id="descripcionInsertar" th:field="*{descripcion}" required></textarea>
+                <div class="btn_insertar">
+                    <button class="insert_guardar" type="submit"><i class="fas fa-save"></i>Guardar</button>
+                    <button class="insert_cancelar" type="button" onclick="closeForm('insertar')"><i class="fas fa-times"></i>Cancelar</button>
+                </div>
+            </form>
+        </div>
+        <div id="editarForm">
+            <h2>Editar Categoría</h2>
+            <form id="editarCategoriaForm" th:object="${categoria}" method="post">
+                <label for="nombreEditar">Nombre</label>
+                <input type="text" id="nombreEditar" th:field="*{nombre}" required>
+                <label for="descripcionEditar">Descripción</label>
+                <textarea id="descripcionEditar" th:field="*{descripcion}" required></textarea>
+                <div class="btn_editar">
+                    <button class="edit_guardar" type="submit"><i class="fas fa-save"></i>Actualizar</button>
+                    <button class="insert_cancelar" type="button" onclick="closeForm('editar')"><i class="fas fa-times"></i>Cancelar</button>
+                </div>
+            </form>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="categoria : ${listaCategoria}">
+                <td th:text="${categoria.idcategoria}"></td>
+                <td th:text="${categoria.nombre}"></td>
+                <td th:text="${categoria.descripcion}"></td>
+                <td>
+                    <a href="#" class="edit" th:attr="onclick='showEditForm(' + ${categoria.idcategoria} + ', \'' + ${categoria.nombre} + '\', \'' + ${categoria.descripcion} + '\')'"><i class="fas fa-edit"></i>Editar</a>
+                    <a href="#" class="delete" th:attr="onclick='confirmDelete(' + ${categoria.idcategoria} + ', \'' + ${categoria.nombre} + '\')'"><i class="fas fa-trash"></i>Eliminar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+
+<div id="deleteConfirmation">
+    <h2>Confirmar Eliminación</h2>
+    <p>¿Está seguro de que desea eliminar la categoría <span id="categoriaNombre"></span>?</p>
+    <div class="btn_confirm">
+        <button class="insert_guardar" onclick="deleteCategoria()"><i class="fas fa-check"></i>Eliminar</button>
+        <button class="insert_cancelar" onclick="closeDeleteConfirmation()"><i class="fas fa-times"></i>Cancelar</button>
+    </div>
 </div>
 
 <script>
-    function confirmDelete(id) {
-        if (confirm('¿Está seguro de que desea eliminar esta categoría?')) {
-            window.location.href = '/categoria/eliminar/' + id;
+    let categoriaIdToDelete = null;
+
+    function showForm(formId) {
+        document.getElementById('insertarForm').style.display = formId === 'insertar' ? 'block' : 'none';
+        document.getElementById('editarForm').style.display = formId === 'editar' ? 'block' : 'none';
+    }
+
+    function closeForm(formId) {
+        document.getElementById(formId === 'insertar' ? 'insertarForm' : 'editarForm').style.display = 'none';
+    }
+
+    function showEditForm(id, nombre, descripcion) {
+        fetch('/categoria/obtenerCategoria/' + id)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('editarCategoriaForm').action = '/categoria/editarCategoria/' + id;
+                document.getElementById('nombreEditar').value = data.nombre;
+                document.getElementById('descripcionEditar').value = data.descripcion;
+                showForm('editar');
+            });
+    }
+
+    function confirmDelete(id, nombre) {
+        categoriaIdToDelete = id;
+        document.getElementById('categoriaNombre').textContent = nombre;
+        document.getElementById('deleteConfirmation').style.display = 'block';
+    }
+
+    function closeDeleteConfirmation() {
+        document.getElementById('deleteConfirmation').style.display = 'none';
+    }
+
+    function deleteCategoria() {
+        if (categoriaIdToDelete !== null) {
+            window.location.href = '/categoria/eliminar/' + categoriaIdToDelete;
         }
     }
 </script>
