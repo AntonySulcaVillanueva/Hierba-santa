@@ -1,11 +1,15 @@
 package com.eon.hierbasanta.controller;
 
 import com.eon.hierbasanta.model.TipoCliente;
-import com.eon.hierbasanta.service.TipoClienteService;
+import com.eon.hierbasanta.repository.TipoClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -14,50 +18,69 @@ import java.util.List;
 public class TipoClienteController {
 
     @Autowired
-    private TipoClienteService tipoClienteService;
+    private TipoClienteRepository tipoClienteRepository;
 
-    @GetMapping("/listarTipoCliente")
-    public String listarTipoCliente(Model model) {
-        List<TipoCliente> tipoCliente = tipoClienteService.mostrarTodos();
-        model.addAttribute("listaTipoCliente", tipoCliente);
+    @GetMapping("/listar")
+    public String listarTipoClientes(Model model) {
+        List<TipoCliente> tipoClientes = tipoClienteRepository.findAll();
+        model.addAttribute("tipoClientes", tipoClientes);
         return "TipoCliente/listarTipoCliente";
     }
 
-    @GetMapping("/insertarTipoCliente")
-    public String insertarTipoClienteForm(Model model) {
-        model.addAttribute("tcliente", new TipoCliente());
-        return "TipoCliente/insertarTipoCliente";
-    }
-
-    @PostMapping("/insertarTipoCliente")
-    public String insertarTipoCliente(@ModelAttribute TipoCliente tipoCliente) {
-        tipoClienteService.crearTipoCliente(tipoCliente);
-        return "redirect:/tipoCliente/listarTipoCliente";
-    }
-
-    @GetMapping("/editarTipoCliente/{id}")
-    public String editarTipoClienteForm(@PathVariable Long id, Model model) {
-        TipoCliente tipoCliente = tipoClienteService.optenerPorId(id);
+    @GetMapping("/nuevo")
+    public String agregarTipoCliente(Model model) {
+        TipoCliente tipoCliente = new TipoCliente();
         model.addAttribute("tipoCliente", tipoCliente);
-        return "TipoCliente/editarTipoCliente";
+        model.addAttribute("titulo", "Nuevo Tipo de Cliente");
+        return "TipoCliente/tipoCliente_form";
     }
 
-    @PostMapping("/editarTipoCliente/{id}")
-    public String editarTipoCliente(@PathVariable Long id, @ModelAttribute TipoCliente tipoCliente) {
-        tipoClienteService.actualizarTipoCliente(id, tipoCliente);
-        return "redirect:/tipoCliente/listarTipoCliente";
+    @PostMapping("/save")
+    public String guardarTipoCliente(TipoCliente tipoCliente, RedirectAttributes redirectAttributes) {
+        try {
+            tipoClienteRepository.save(tipoCliente);
+            redirectAttributes.addFlashAttribute("mensaje", "Tipo de Cliente guardado correctamente");
+            return "redirect:/tipoCliente/listar";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", "Error al guardar el Tipo de Cliente");
+        }
+        return "redirect:/tipoCliente/listar";
     }
 
-    @GetMapping("/detalleTipoCategoria/{id}")
-    public String detalleTipoCategoria(@PathVariable Long id, Model model) {
-        TipoCliente tipoCliente = tipoClienteService.optenerPorId(id);
-        model.addAttribute("tipoCliente", tipoCliente);
-        return "TipoCliente/detalleTipoCategoria";
+    @GetMapping("/{id}")
+    public String editarTipoCliente(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            TipoCliente tipoCliente = tipoClienteRepository.findById(id).orElseThrow(() -> new Exception("Tipo de Cliente no encontrado"));
+            model.addAttribute("pagetitle", "Editar Tipo de Cliente: " + tipoCliente.getIdTipoCliente());
+            model.addAttribute("tipoCliente", tipoCliente);
+            return "TipoCliente/tipoCliente_form";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+            return "redirect:/tipoCliente/listar";
+        }
     }
 
-    @GetMapping("/eliminarTipoCliente/{id}")
-    public String eliminarTipoCliente(@PathVariable Long id) {
-        tipoClienteService.eliminarTipoCliente(id);
-        return "redirect:/tipoCliente/listarTipoCliente";
+    @GetMapping("/delete/{id}")
+    public String eliminarTipoCliente(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            tipoClienteRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("mensaje", "Tipo de Cliente eliminado con éxito");
+            return "redirect:/tipoCliente/listar";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+        }
+        return "redirect:/tipoCliente/listar";
+    }
+
+    @GetMapping("/detalle/{id}")
+    public String verDetallesTipoCliente(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            TipoCliente tipoCliente = tipoClienteRepository.findById(id).orElseThrow(() -> new Exception("Tipo de Cliente no encontrado"));
+            model.addAttribute("tipoCliente", tipoCliente);
+            return "TipoCliente/detalleTipoCliente";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+            return "redirect:/tipoCliente/listar";
+        }
     }
 }

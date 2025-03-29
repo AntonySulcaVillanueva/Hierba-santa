@@ -15,7 +15,7 @@ public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_pedido")
-    private Long idDetallePedido;
+    private Integer idDetallePedido;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")

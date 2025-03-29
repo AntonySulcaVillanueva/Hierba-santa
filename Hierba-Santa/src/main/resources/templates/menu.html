@@ -1,83 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        .background {
-            background-image: url('https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .menu-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            height: 700px;
-        }
-
-        .menu-container h1 {
-            margin-bottom: 30px;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .menu-container button {
-            width: 100%;
-            padding: 15px;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 16px;
-        }
-
-        .menu-container .button1 { background-color: #4CAF50; }
-        .menu-container .button2 { background-color: #2196F3; }
-        .menu-container .button3 { background-color: #2196F3; }
-        .menu-container .button4 { background-color: #8f7f11; }
-        .menu-container .button5 { background-color: #8f7f11; }
-        .menu-container .button6 { background-color: #4CAF50; }
-        .menu-container .button7 { background-color: #4CAF50; }
-        .menu-container .button8 { background-color: #ba410c; }
-        .menu-container .button9 { background-color: #ba410c; }
-
-        .menu-container button:hover {
-            opacity: 0.8;
-        }
-    </style>
+    <title>Menú Principal - Hierba Santa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="background">
-    <div class="menu-container">
-        <h1>Menú Principal</h1>
-        <button class="button1" onclick="window.location.href='/pedido/listarPedidos'">Ver Pedidos</button>
-        <button class="button2" onclick="window.location.href='/producto/listarProductos'">Ver Productos</button>
-        <button class="button3" onclick="window.location.href='/categoria/listarCategoria'">Ver Categoría</button>
-        <button class="button4" onclick="window.location.href='/tipoCliente/listarTipoCliente'">Ver Tipo Cliente</button>
-        <button class="button5" onclick="window.location.href='/cliente/listarCliente'">Ver Clientes</button>
-        <button class="button6" onclick="window.location.href='/inventarioProducto/listarInvProductos'">Inventario Productos</button>
-        <button class="button7" onclick="window.location.href='/inventarioInsumo/listarInvInsumos'">Inventario Insumos</button>
-        <button class="button8" onclick="window.location.href='/empleado/listarEmpleados'">Empleados</button>
-        <button class="button9" onclick="window.location.href='/proveedores/listarProveedores'">Proveedores</button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Hierba Santa</a>
+    <div class="ml-auto">
+            <span class="text-light mr-3">
+                Bienvenido, <span th:text="${empleadoNombre}"></span> (<span th:text="${empleadoCargo}"></span>)
+            </span>
+        <a href="/logout" class="btn btn-outline-light">Cerrar Sesión</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">Menú Principal</a>
+                <a href="#" class="list-group-item list-group-item-action">Gestión de Productos</a>
+                <a href="#" class="list-group-item list-group-item-action">Ventas</a>
+                <a href="#" class="list-group-item list-group-item-action">Reportes</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Bienvenido al Sistema</h5>
+                    <p class="card-text">Seleccione una opción del menú lateral para comenzar.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

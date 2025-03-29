@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:replace="fragments/headerProducto"></div>
+
+<div class="container-fluid">
+    <h2 class="text-center">[[${pageTitle}]]</h2>
+
+    <div class="my-3">
+        <form th:action="@{/producto/save}" method="post" enctype="multipart/form-data" th:object="${producto}" style="max-width: 550px;margin: 0 auto;">
+            <input type="hidden" th:field="*{idproducto}">
+
+            <div class="p-3">
+                <!-- Nombre -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="nombre">Nombre del Producto </label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{nombre}" required minlength="2" maxlength="128" class="form-control" id="nombre">
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="descripcion">Descripción</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{descripcion}" required minlength="2" maxlength="256" class="form-control" id="descripcion">
+                    </div>
+                </div>
+
+                <!-- Categoría -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" >Categoría</label>
+                    <div class="col-sm-9">
+                        <select th:field="*{categoria.idcategoria}" class="form-control" required>
+                            <option value="" disabled selected>Selecciona una categoría</option>
+                            <option th:each="categoria : ${categorias}"
+                                    th:value="${categoria.idcategoria}"
+                                    th:text="${categoria.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Gramos -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="gramos">Gramos</label>
+                    <div class="col-sm-9">
+                        <input type="number" th:field="*{gramos}" required minlength="1" maxlength="50" class="form-control" id="gramos">
+                    </div>
+                </div>
+
+                <!-- Precio -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="precio">Precio ( soles) </label>
+                    <div class="col-sm-9">
+                        <input type="number" th:field="*{precio}" step="0.01" required class="form-control" id="precio">
+                    </div>
+                </div>
+
+                <!-- Descuento -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="descuento">Descuento (%)</label>
+                    <div class="col-sm-9">
+                        <input type="number" th:field="*{descuento}" min="0" max="100" class="form-control" id="descuento">
+                    </div>
+                </div>
+
+                <!-- Cantidad -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="cantidad">Cantidad</label>
+                    <div class="col-sm-9">
+                        <input type="number" th:field="*{cantidad}" min="0" class="form-control" id="cantidad">
+                    </div>
+                </div>
+
+                <!-- Imágenes -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="imagen1">Imagen 1</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{imagen1}" class="form-control" id="imagen1">
+                    </div>
+                </div>
+
+                <!-- Imagen 2 -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="imagen2">Imagen 2</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{imagen2}" class="form-control" id="imagen2">
+                    </div>
+                </div>
+
+                <!-- Imagen 3 -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="imagen3">Imagen 3</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{imagen3}" class="form-control" id="imagen3">
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="text-center">
+                    <input type="submit" value="Guardar" class="btn btn-primary btn-sm mr-2">
+                    <input type="button" value="Cancelar" id="btnCancelar" class="btn btn-secondary btn-sm">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnCancelar").on("click", function () {
+            window.location="[[@{/producto/listar}]]";
+        })
+    })
+</script>
+
+</body>
+</html>

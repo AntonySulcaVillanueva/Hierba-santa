@@ -2,12 +2,16 @@ package com.eon.hierbasanta.controller;
 
 import com.eon.hierbasanta.model.Cliente;
 import com.eon.hierbasanta.model.TipoCliente;
-import com.eon.hierbasanta.service.ClienteService;
-import com.eon.hierbasanta.service.TipoClienteService;
+import com.eon.hierbasanta.repository.ClienteRepository;
+import com.eon.hierbasanta.repository.TipoClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,58 +21,80 @@ import java.util.List;
 public class ClienteController {
 
     @Autowired
-    private ClienteService clienteService;
+    private ClienteRepository clienteRepository;
 
     @Autowired
-    private TipoClienteService tipoClienteService;
+    private TipoClienteRepository tipoClienteRepository;
 
-    @GetMapping("/listarCliente")
-    public String listarCliente(Model model) {
-        List<Cliente> clientes = clienteService.mostrarTodos();
-        model.addAttribute("listaClientes", clientes);
+    @GetMapping("/listar")
+    public String listarClientes(Model model) {
+        List<Cliente> clientes = clienteRepository.findAll();
+        model.addAttribute("clientes", clientes);
         return "Cliente/listarCliente";
     }
 
-    @GetMapping("/insertarCliente")
-    public String insertarClienteForm(Model model) {
-        List<TipoCliente> tipoClientes = tipoClienteService.mostrarTodos();
-        model.addAttribute("cliente", new Cliente());
-        model.addAttribute("tcliente", tipoClientes);
-        return "Cliente/insertarCliente";
+    @GetMapping("/nuevo")
+    public String agregarCliente(Model model) {
+        List<TipoCliente> tiposCliente = tipoClienteRepository.findAll();
+        Cliente cliente = new Cliente();
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("tiposCliente", tiposCliente);
+        model.addAttribute("titulo", "Nuevo Cliente");
+        return "Cliente/cliente_form";
     }
 
-    @PostMapping("/insertarCliente")
-    public String insertarCliente(@ModelAttribute Cliente cliente) {
-        cliente.setFechaRegistro(LocalDateTime.now());
-        clienteService.crearCliente(cliente);
-        return "redirect:/cliente/listarCliente";
+    @PostMapping("/save")
+    public String guardarCliente(Cliente cliente, RedirectAttributes redirectAttributes) {
+        try {
+            cliente.setFechaRegistro(LocalDateTime.now());
+            if (cliente.getTotalPedidosSinCancelar() == null) {
+                cliente.setTotalPedidosSinCancelar(0);
+            }
+            clienteRepository.save(cliente);
+            redirectAttributes.addFlashAttribute("mensaje", "Cliente guardado correctamente");
+            return "redirect:/cliente/listar";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", "Error al guardar el Cliente");
+        }
+        return "redirect:/cliente/listar";
     }
 
-    @GetMapping("/editarCliente/{idCliente}")
-    public String editarClienteForm(@PathVariable Long idCliente, Model model) {
-        Cliente cliente = clienteService.obtenerPorId(idCliente);
-        List<TipoCliente> tipoClientes = tipoClienteService.mostrarTodos();
-        model.addAttribute("llaveCliente", cliente);
-        model.addAttribute("llavetipoClientes", tipoClientes);
-        return "Cliente/editarCliente";
+    @GetMapping("/{id}")
+    public String editarCliente(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new Exception("Cliente no encontrado"));
+            List<TipoCliente> tiposCliente = tipoClienteRepository.findAll();
+            model.addAttribute("pagetitle", "Editar Cliente: " + cliente.getIdCliente());
+            model.addAttribute("cliente", cliente);
+            model.addAttribute("tiposCliente", tiposCliente);
+            return "Cliente/cliente_form";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+            return "redirect:/cliente/listar";
+        }
     }
 
-    @PostMapping("/editarCliente/{idCliente}")
-    public String editarCliente(@PathVariable Long idCliente, @ModelAttribute Cliente cliente) {
-        clienteService.actualizarCliente(idCliente, cliente);
-        return "redirect:/cliente/listarCliente";
+    @GetMapping("/delete/{id}")
+    public String eliminarCliente(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            clienteRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("mensaje", "Cliente eliminado con éxito");
+            return "redirect:/cliente/listar";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+        }
+        return "redirect:/cliente/listar";
     }
 
-    @GetMapping("/detalleCliente/{idCliente}")
-    public String detalleCliente(@PathVariable Long idCliente, Model model) {
-        Cliente cliente = clienteService.obtenerPorId(idCliente);
-        model.addAttribute("llaveCliente", cliente);
-        return "Cliente/detalleCliente";
-    }
-
-    @GetMapping("/eliminarCliente/{idCliente}")
-    public String eliminarCliente(@PathVariable Long idCliente) {
-        clienteService.eliminarCliente(idCliente);
-        return "redirect:/cliente/listarCliente";
+    @GetMapping("/detalle/{id}")
+    public String verDetallesCliente(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new Exception("Cliente no encontrado"));
+            model.addAttribute("cliente", cliente);
+            return "Cliente/detalleCliente";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+            return "redirect:/cliente/listar";
+        }
     }
 }

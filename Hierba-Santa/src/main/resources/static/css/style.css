@@ -1,0 +1,111 @@
+.frame {
+    display: flex;
+    height: calc(100vh - 10px);
+    flex-direction: row;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.panel-listar {
+    width: calc(100% - 300px);
+    padding: 50px;
+    background-color: #ffffff;
+}
+
+.separator {
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 3px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.boton-filtrar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 30px;
+    width: 100px;
+    background-color: #d6be4b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+/* Estilo para la columna de descripción */
+.descripcion-col {
+    max-width: 250px; /* Fijamos un tamaño máximo */
+    white-space: nowrap; /* Evita que el texto se desborde */
+    overflow: hidden; /* Oculta el texto que sobrepase el límite */
+    text-overflow: ellipsis; /* Añade "..." al final si el texto se corta */
+    position: relative;
+}
+
+/* Estilo para el panel de descripción emergente */
+.descripcion-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 300px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 10;
+}
+
+/* Mostrar el panel cuando el cursor está sobre la celda */
+.descripcion-col:hover .descripcion-panel {
+    display: block;
+}
+
+/* Botón de editar (azul claro) */
+.btn-edit {
+    background-color: #b3d9ff; /* Azul claro */
+    color: #0056b3; /* Color oscuro para el texto */
+    border: 1px solid #b3d9ff;
+}
+
+/* Botón de editar (azul claro) al pasar el cursor */
+.btn-edit:hover {
+    background-color: #80c7ff; /* Azul más claro */
+    color: white;
+}
+
+/* Botón de eliminar (rojo claro) */
+.btn-delete {
+    background-color: #ffcccc; /* Rojo claro */
+    color: #b30000; /* Rojo oscuro para el texto */
+    border: 1px solid #ffcccc;
+}
+
+/* Botón de eliminar (rojo claro) al pasar el cursor */
+.btn-delete:hover {
+    background-color: #ff9999; /* Rojo más claro */
+    color: white;
+}
+
+/* Botón de detalle (verde claro) */
+.btn-detail {
+    background-color: #d1f5d3; /* Verde claro */
+    color: #006400; /* Verde oscuro para el texto */
+    border: 1px solid #d1f5d3;
+}
+
+/* Botón de detalle (verde claro) al pasar el cursor */
+.btn-detail:hover {
+    background-color: #a1f0a2; /* Verde más claro */
+    color: white;
+}

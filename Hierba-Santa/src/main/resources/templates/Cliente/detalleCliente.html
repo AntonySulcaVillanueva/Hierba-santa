@@ -1,22 +1,111 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Detalle Cliente</title>
+    <meta charset="UTF-8">
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Detalle del Cliente</h1>
-<div>
-  <p><strong>ID:</strong> <span th:text="${llaveCliente.idCliente}">1</span></p>
-  <p><strong>Nombre Completo:</strong> <span th:text="${llaveCliente.nombreCompleto}">Nombre Completo</span></p>
-  <p><strong>DNI:</strong> <span th:text="${llaveCliente.dni}">DNI</span></p>
-  <p><strong>Correo:</strong> <span th:text="${llaveCliente.correo}">Correo</span></p>
-  <p><strong>Teléfono:</strong> <span th:text="${llaveCliente.telefono}">Teléfono</span></p>
-  <p><strong>Dirección:</strong> <span th:text="${llaveCliente.direccion}">Dirección</span></p>
-  <p><strong>Fecha de Nacimiento:</strong> <span th:text="${llaveCliente.fechaNacimiento}">Fecha de Nacimiento</span></p>
-  <p><strong>Tipo Cliente:</strong> <span th:text="${llaveCliente.tipoCliente.tipo}">Tipo Cliente</span></p>
-  <p><strong>Total Pedidos Sin Cancelar:</strong> <span th:text="${llaveCliente.totalPedidosSinCancelar}">Total Pedidos Sin Cancelar</span></p>
-  <p><strong>Fecha de Registro:</strong> <span th:text="${llaveCliente.fechaRegistro}">Fecha de Registro</span></p>
+<div class="container" th:replace="fragments/headerCliente"></div>
+
+<div class="container-fluid">
+    <h2 class="text-center">[[${titulo}]]</h2>
+
+    <div class="my-3">
+        <!-- Mostrar detalles del cliente en lugar de un formulario -->
+        <div style="max-width: 550px;margin: 0 auto; ">
+            <div class="p-3">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="nombreCompleto">Nombre Completo</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar el nombre completo del cliente -->
+                        <input type="text" th:value="${cliente.nombreCompleto}" class="form-control" id="nombreCompleto" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="dni">DNI</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar el DNI del cliente -->
+                        <input type="text" th:value="${cliente.dni}" class="form-control" id="dni" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="correo">Correo</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar el correo del cliente -->
+                        <input type="email" th:value="${cliente.correo}" class="form-control" id="correo" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="telefono">Teléfono</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar el teléfono del cliente -->
+                        <input type="text" th:value="${cliente.telefono}" class="form-control" id="telefono" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="direccion">Dirección</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar la dirección del cliente -->
+                        <input type="text" th:value="${cliente.direccion}" class="form-control" id="direccion" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="fechaNacimiento">Fecha de Nacimiento</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar la fecha de nacimiento del cliente -->
+                        <input type="date" th:value="${cliente.fechaNacimiento}" class="form-control" id="fechaNacimiento" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="tipoCliente">Tipo de Cliente</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar el tipo de cliente -->
+                        <input type="text" th:value="${cliente.tipoCliente.tipo}" class="form-control" id="tipoCliente" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="totalPedidosSinCancelar">Total Pedidos Sin Cancelar</label>
+                    <div class="col-sm-9">
+                        <!-- Mostrar el total de pedidos sin cancelar del cliente -->
+                        <input type="number" th:value="${cliente.totalPedidosSinCancelar}" class="form-control" id="totalPedidosSinCancelar" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="fechaRegistro">Fecha de Registro</label>
+                    <div class="col-sm-9">
+                        <!-- Campo para la fecha -->
+                        <input type="date" th:value="${cliente.fechaRegistro != null ? #temporals.format(cliente.fechaRegistro, 'yyyy-MM-dd') : ''}" class="form-control" id="fechaRegistro" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="horaRegistro">Hora de Registro:</label>
+                    <div class="col-sm-9">
+                        <!-- Campo para la hora -->
+                        <input type="time" th:value="${cliente.fechaRegistro != null ? #temporals.format(cliente.fechaRegistro, 'HH:mm') : ''}" class="form-control" id="horaRegistro" readonly>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- Botón de regreso a la lista de clientes -->
+            <div class="text-center">
+                <a href="/cliente/listar" class="btn btn-secondary btn-sm">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
 </div>
-<a th:href="@{/cliente/listarCliente}">Volver a la Lista</a>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
 </body>
 </html>

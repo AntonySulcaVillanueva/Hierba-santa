@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:replace="fragments/headerCliente"></div>
+
+<div class="container-fluid">
+    <h2 class="text-center">[[${titulo}]]</h2>
+
+    <div class="my-3">
+        <form th:action="@{/cliente/save}" method="post" enctype="multipart/form-data" th:object="${cliente}" style="max-width: 550px;margin: 0 auto;">
+            <input type="hidden" th:field="*{idCliente}">
+            <div class="p-3">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="nombreCompleto">Nombre Completo</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{nombreCompleto}" required minlength="2" maxlength="128" class="form-control" id="nombreCompleto">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="dni">DNI</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{dni}" required minlength="8" maxlength="8" class="form-control" id="dni">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="correo">Correo</label>
+                    <div class="col-sm-9">
+                        <input type="email" th:field="*{correo}" required class="form-control" id="correo">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="telefono">Teléfono</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{telefono}" class="form-control" id="telefono">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="direccion">Dirección</label>
+                    <div class="col-sm-9">
+                        <input type="text" th:field="*{direccion}" class="form-control" id="direccion">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="fechaNacimiento">Fecha de Nacimiento</label>
+                    <div class="col-sm-9">
+                        <input type="date" th:field="*{fechaNacimiento}" class="form-control" id="fechaNacimiento">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" >Tipo de Cliente</label>
+                    <div class="col-sm-9">
+                        <select th:field="*{tipoCliente.idTipoCliente}" class="form-control" required>
+                            <option value="" disabled selected>Seleccione un Tipo de Cliente</option>
+                            <option th:each="tipoCliente : ${tiposCliente}"
+                                    th:value="${tipoCliente.idTipoCliente}"
+                                    th:text="${tipoCliente.tipo}"></option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Total Pedidos Sin Cancelar -->
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="totalPedidosSinCancelar">Total Pedidos Sin Cancelar</label>
+                    <div class="col-sm-9">
+                        <input type="number" th:field="*{totalPedidosSinCancelar}" class="form-control" id="totalPedidosSinCancelar"
+                               th:readonly="${cliente.idCliente != null}">
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Guardar" class="btn btn-primary btn-sm mr-2">
+                <input type="button" value="Cancelar" id="btnCancelar" class="btn btn-secondary btn-sm">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnCancelar").on("click", function () {
+            window.location="[[@{/cliente/listar}]]";
+        })
+    })
+</script>
+</body>
+</html>

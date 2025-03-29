@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -17,18 +18,17 @@ public class MovimientoInventarioInsumos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_movimiento")
-    private Long idMovimiento;
+    private Integer idMovimiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_insumo", referencedColumnName = "id_insumo")
     private Insumos insumo;
 
     @Column(name = "cantidad")
-    private Double cantidad;
+    private Integer cantidad;
 
     @Column(name = "fecha_movimiento")
-    @Temporal(TemporalType.DATE)
-    private Date fechaMovimiento;
+    private LocalDateTime fechaMovimiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_empleado", referencedColumnName = "id_empleado")

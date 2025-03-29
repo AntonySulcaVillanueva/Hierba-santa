@@ -15,23 +15,23 @@ public class Insumos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_insumo")
-    private Long idInsumo;
+    private Integer idInsumo;
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
-
-    @Column(name = "descripcion")
-    private String descripcion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria", referencedColumnName = "idcategoria")
     private Categorias categoria;
 
+    @Column(name = "descripcion")
+    private String descripcion;
+
     @Column(name = "unidad_de_medida")
     private String unidadDeMedida;
 
-    @Column(name = "stock")
-    private Double stock;
+    @Column(name = "cantidad")
+    private Integer cantidad;
 
     @Column(name = "costo")
     private Double costo;

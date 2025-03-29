@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Pedido</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <style>
+        body {
+            overflow-y: auto;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .info-section {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .info-section p {
+            margin: 5px 0;
+        }
+        .form-section {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .order-form {
+            width: 60%;
+            padding-right: 20px;
+        }
+        .product-panel {
+            width: 40%;
+            height: 800px;
+            overflow-y: auto;
+            border-left: 1px solid #ccc;
+            padding-left: 20px;
+        }
+        .product-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .product-item:hover {
+            background-color: #f0f0f0;
+        }
+        .product-panel h3 {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-top: 0;
+            border-bottom: 1px solid #ddd;
+            z-index: 1;
+        }
+        .messages-section {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .messages-section p {
+            margin: 5px 0;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="container" th:replace="fragments/headerPedido"></div>
+</div>
+<br>
+
+<div class="container">
+    <h2 class="text-center">Crear Pedido</h2>
+
+    <div class="info-section">
+        <p><strong>Empresa:</strong> <span th:text="${empresa}"></span></p>
+        <p><strong>RUC:</strong> <span th:text="${ruc}"></span></p>
+        <p><strong>Dirección:</strong> <span th:text="${direccion}"></span></p>
+        <p><strong>Teléfono:</strong> <span th:text="${telefono}"></span></p>
+        <p><strong>Teléfono Fijo:</strong> <span th:text="${telefonoFijo}"></span></p>
+        <p><strong>Distrito:</strong> <span th:text="${distrito}"></span></p>
+        <p><strong>Fecha de Registro:</strong> <span th:text="${#dates.format(pedido.fechaPedido, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+    </div>
+
+    <div class="form-section">
+        <div class="order-form">
+            <form th:action="@{/pedido/save}" th:object="${pedido}" method="post">
+                <div class="form-group">
+                    <label for="cliente">Cliente</label>
+                    <select id="cliente" th:field="*{cliente.idCliente}" class="form-control" required>
+                        <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}" th:text="${cliente.nombreCompleto}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tipoCliente">Tipo de Cliente</label>
+                    <select id="tipoCliente" th:field="*{cliente.tipoCliente.idTipoCliente}" class="form-control" required>
+                        <option th:each="tipoCliente : ${tiposDeCliente}" th:value="${tipoCliente.idTipoCliente}" th:text="${tipoCliente.tipo}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="metodoDePago">Método de Pago</label>
+                    <select id="metodoDePago" th:field="*{metodoDePago}" class="form-control">
+                        <option value="" disabled selected>Seleccione un método de pago</option>
+                        <option value="yape">Yape</option>
+                        <option value="plin">Plin</option>
+                        <option value="transferencia">Transferencia</option>
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="efectivo">Efectivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="estadoPedido">Estado de Pedido</label>
+                    <select id="estadoPedido" th:field="*{estadoPedido}" class="form-control" required>
+                        <option value="sin cancelar" selected>Sin Cancelar</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios">Comentarios</label>
+                    <textarea id="comentarios" th:field="*{comentarios}" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="departamento">Departamento</label>
+                    <select id="departamento" name="departamento" class="form-control" required>
+                        <option th:each="departamento : ${departamentos}" th:value="${departamento}" th:text="${departamento}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="distrito">Distrito</label>
+                    <select id="distrito" name="distrito" class="form-control" required>
+                        <option th:each="distrito : ${distritos}" th:value="${distrito}" th:text="${distrito}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaEnvio">Fecha de Envío</label>
+                    <input type="date" id="fechaEnvio" th:field="*{fechaEnvio}" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productos">Productos Seleccionados</label>
+                    <div id="productos"></div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-sm mr-2">Crear Pedido</button>
+                </div>
+            </form>
+        </div>
+        <div class="product-panel">
+            <h3>Productos</h3>
+            <div th:each="producto : ${productos}" class="product-item" onclick="addProducto(this)">
+                <span th:text="${producto.nombre} + ' - ' + ${producto.gramos} + 'g - Cantidad: ' + ${producto.cantidad} + ' - Precio: ' + ${producto.precio} + ' - Descuento: ' + ${producto.descuento}"></span>
+                <input type="hidden" th:value="${producto.nombre}">
+                <input type="hidden" th:value="${producto.gramos}">
+                <input type="hidden" th:value="${producto.cantidad}">
+                <input type="hidden" th:value="${producto.precio}">
+                <input type="hidden" th:value="${producto.descuento}">
+            </div>
+        </div>
+    </div>
+
+    <div class="messages-section">
+        <p>Por favor, asegúrese de revisar todos los campos antes de enviar.</p>
+        <p>Los productos seleccionados deben tener una cantidad válida.</p>
+        <p>Revise los descuentos aplicados a cada producto.</p>
+    </div>
+</div>
+
+<script>
+    function addProducto(productoElement) {
+        const productosDiv = document.getElementById('productos');
+        const index = productosDiv.children.length;
+
+        const nombre = productoElement.querySelector('input:nth-of-type(1)').value;
+        const gramos = productoElement.querySelector('input:nth-of-type(2)').value;
+        const cantidadDisponible = productoElement.querySelector('input:nth-of-type(3)').value;
+        const precio = productoElement.querySelector('input:nth-of-type(4)').value;
+        const descuento = productoElement.querySelector('input:nth-of-type(5)').value;
+
+        const productoDiv = document.createElement('div');
+        productoDiv.classList.add('selected-product');
+        productoDiv.innerHTML = `
+            <div class="form-group">
+                <label>Producto: ${nombre} (${gramos}g, Precio: ${precio}, Descuento: ${descuento})</label>
+                <input type="hidden" name="productos[${index}].nombre" value="${nombre}">
+                <input type="hidden" name="productos[${index}].gramos" value="${gramos}">
+                <input type="hidden" name="productos[${index}].cantidadDisponible" value="${cantidadDisponible}">
+                <input type="hidden" name="productos[${index}].precio" value="${precio}">
+                <input type="hidden" name="productos[${index}].descuento" value="${descuento}">
+                <label for="cantidad-${index}">Cantidad:</label>
+                <input type="number" id="cantidad-${index}" name="productos[${index}].cantidad" class="form-control" min="1" max="${cantidadDisponible}" required>
+                <label for="otroDescuento-${index}">Otro Descuento:</label>
+                <input type="number" id="otroDescuento-${index}" name="productos[${index}].otroDescuento" class="form-control" step="0.01" min="0" value="0">
+            </div>
+        `;
+
+        productosDiv.appendChild(productoDiv);
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

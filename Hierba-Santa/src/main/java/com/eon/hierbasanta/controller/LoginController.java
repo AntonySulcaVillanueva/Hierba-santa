@@ -11,7 +11,11 @@ public class LoginController {
 
     @GetMapping
     public String login(Model model) {
-        return "login";
+        return "login"; // Devuelve la vista login.html
     }
 
+    @GetMapping("/menu")
+    public String menu(Model model) {
+        return "menu"; // Devuelve la vista menu.html
+    }
 }
